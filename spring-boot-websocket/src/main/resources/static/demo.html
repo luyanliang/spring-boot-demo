@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>WebSocket测试</title>
+</head>
+
+<body>
+    <div>
+        <input type="button" value="Start" onclick="start()" />
+    </div>
+    <div id="messages"></div>
+    <script>
+        var ws = new WebSocket("ws://localhost:8080/websocket/demo1");
+
+        ws.onerror = function(event) {
+            alert(event.data);
+        };
+        //与WebSocket建立连接
+        ws.onopen = function(event) {
+            document.getElementById('messages').innerHTML = '与服务器端建立连接';
+        };
+        //处理服务器返回的信息
+        ws.onmessage = function(event) {
+            document.getElementById('messages').innerHTML += '<br />'+ event.data;
+        };
+
+        function start() {
+            //向服务器发送请求
+            ws.send('我是jCuckoo');
+        }
+    </script>
+</body>
+</html>
