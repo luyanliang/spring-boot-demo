@@ -9,7 +9,7 @@ WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器�
 
 最大特点：服务器可以主动向客户端发送消息，客户端也可以直接向服务器发送消息。
 
-![HTTP 与 WebSocket](http://learn.fhmou.com/20170821150328607733351.png)
+![HTTP 与 WebSocket](http://learn.luke.com/20170821150328607733351.png)
 
 其他特点：
    
@@ -24,7 +24,7 @@ WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器�
 ws://example.com:80/some/path
 ```
 
-![WebSocket](http://learn.fhmou.com/20170821150329088474758.png)
+![WebSocket](http://learn.luke.com/20170821150329088474758.png)
 
 > 三、客户端的简单示例
 
