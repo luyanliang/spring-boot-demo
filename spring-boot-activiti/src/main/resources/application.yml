@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: activiti
+  datasource:
+    url: jdbc:mysql://10.192.1.108:3306/test?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&&serverTimezone=Asia/Shanghai
+    username: root
+    password: leapmotor&mydb.0314
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  activiti:
+    db-history-used: true
+

@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>spring-boot-camunda</module>
+        <module>spring-boot-activiti</module>
     </modules>
 
     <parent>
