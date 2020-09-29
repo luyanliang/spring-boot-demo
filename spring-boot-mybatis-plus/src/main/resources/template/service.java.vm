@@ -1,0 +1,30 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import com.leapmotor.framework.common.web.model.PaginationModel;
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    /**
+     * 使用<code>condition</code>中的属性作为条件，进行分页查询
+     *
+     * @param condition 条件对象
+     * @param page      页码
+     * @param size      分页大小
+     * @return 分页返回数据
+     */
+    PaginationModel<${table.entityName}> findPage(${table.entityName} condition, Long page, Long size);
+}
+#end

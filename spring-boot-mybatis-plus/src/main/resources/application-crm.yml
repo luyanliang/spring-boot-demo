@@ -1,0 +1,14 @@
+mybatis-plus:
+  global:
+    #文件输出目录
+    outputDir: E:\code
+    author: LuYanLiang
+    id-type: auto
+  strategy:
+    #需要包含的表名，允许正则表达式（与exclude二选一配置）
+    include: account_defeated
+  package:
+    #父包名
+    parent: com.luke.app.crm
+    #父模块名
+    moduleName: presale

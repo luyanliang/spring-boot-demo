@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1cvrkw5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+  <bpmn:process id="LeaveBill" name="请假流程" isExecutable="true">
+    <bpmn:startEvent id="startLeave" name="开始">
+      <bpmn:outgoing>Flow_16soym8</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_16soym8" sourceRef="startLeave" targetRef="leaveRequest" />
+    <bpmn:userTask id="leaveRequest" name="提交申请">
+      <bpmn:incoming>Flow_16soym8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ez816y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1ez816y" sourceRef="leaveRequest" targetRef="approvalByDepartmentManager" />
+    <bpmn:sequenceFlow id="Flow_0zv46pl" sourceRef="approvalByDepartmentManager" targetRef="approvalByMajordomo" />
+    <bpmn:endEvent id="endLeave">
+      <bpmn:incoming>Flow_0952pm4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0952pm4" sourceRef="approvalByMajordomo" targetRef="endLeave" />
+    <bpmn:userTask id="approvalByDepartmentManager" name="部门经理审批">
+      <bpmn:incoming>Flow_1ez816y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zv46pl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="approvalByMajordomo" name="总监审批">
+      <bpmn:incoming>Flow_0zv46pl</bpmn:incoming>
+      <bpmn:outgoing>Flow_0952pm4</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="LeaveBill">
+      <bpmndi:BPMNEdge id="Flow_16soym8_di" bpmnElement="Flow_16soym8">
+        <di:waypoint x="195" y="117" />
+        <di:waypoint x="250" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ez816y_di" bpmnElement="Flow_1ez816y">
+        <di:waypoint x="350" y="117" />
+        <di:waypoint x="410" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zv46pl_di" bpmnElement="Flow_0zv46pl">
+        <di:waypoint x="510" y="117" />
+        <di:waypoint x="570" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0952pm4_di" bpmnElement="Flow_0952pm4">
+        <di:waypoint x="670" y="117" />
+        <di:waypoint x="732" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="startLeave">
+        <dc:Bounds x="159" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="142" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jt9fxx_di" bpmnElement="leaveRequest">
+        <dc:Bounds x="250" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11dbbvn_di" bpmnElement="endLeave">
+        <dc:Bounds x="732" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hopnrn_di" bpmnElement="approvalByDepartmentManager">
+        <dc:Bounds x="410" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0o1ntyh_di" bpmnElement="approvalByMajordomo">
+        <dc:Bounds x="570" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,10 +1,11 @@
-package com.luke.activiti.start;
+package com.luke.camunda.start;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.repository.Deployment;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 /**
  * @author LuYanLiang
- * @since 2020/9/27 13:23
+ * @since 2020/9/28 9:27
  */
 public class HelloWorld {
 
@@ -26,7 +27,7 @@ public class HelloWorld {
         Deployment deployment = processEngine.getRepositoryService()  // 与流程定义和部署对象相关的Service
                 .createDeployment()     // 创建一个部署对象
                 .name("流程定义")   // 添加部署的名称
-                .addClasspathResource("processes/categorize-text.bpmn")   // 从classPath的资源中加载，一次只能加载一个文件
+                .addClasspathResource("processes/leaveBill.bpmn")   // 从classPath的资源中加载，一次只能加载一个文件
                 .deploy();
 
         System.out.println("部署ID：" + deployment.getId());
@@ -35,14 +36,19 @@ public class HelloWorld {
 
     /**
      * 启动流程实例
+     * <p>
+     * 【流程实例】与【流程定义】的关系类似于【对象】与【类】的关系。
      */
     @Test
     public void startProcessInstance() {
         // 流程定义的Key
-        String processDefinitionKey = "categorizeProcess";
+        String processDefinitionKey = "LeaveBill";
 
-        ProcessInstance pi = processEngine.getRuntimeService()      // 与正在执行的流程实例和执行对象相关的Service
-                .startProcessInstanceByKey(processDefinitionKey);   // 使用流程定义的Key启动流程实例，key对应categorize-text.bpmn文件中ID的属性值
+        // 与正在执行的流程实例和执行对象相关的Service
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+
+        // 使用流程定义的Key启动流程实例，key对应categorize-text.bpmn文件中ID的属性值
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey(processDefinitionKey);
 
         System.out.println("流程实例ID: " + pi.getId()); // 流程实例ID
         System.out.println("流程定义ID: " + pi.getProcessDefinitionId());    // 流程定义ID

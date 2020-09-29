@@ -1,0 +1,107 @@
+spring:
+  profiles:
+    active: crm
+mybatis-plus:
+  datasource:
+    dbType: MYSQL
+    driver-name: com.mysql.jdbc.Driver
+    username: root
+    password: leapmotor&mydb.0314
+    url: jdbc:mysql://10.192.1.108:3306/api_crm?characterEncoding=utf8
+  global:
+    #是否覆盖生成
+    fileOverride: true
+    #生成代码后是否打开目录
+    open: false
+    #id类型
+    #idType: AUTO
+    #是否开启2级缓存
+    enableCache: false
+    #是否为kotlin代码
+    kotlin: false
+    #是否开启ar模式
+    activeRecord: true
+    #是否开启xml BaseResultMap
+    baseResultMap: true
+    #是否开启xml baseColumnList
+    baseColumnList: true
+    #%s
+    entityName: "%s"
+    #%sMapper
+    mapperName: "%sMapper"
+    #%sMapper
+    xmlName: "%sMapper"
+    #%sService
+    serviceName: "%sService"
+    #%sServiceImpl
+    serviceImplName: "%sServiceImpl"
+    #%sController
+    controllerName: "%sController"
+  strategy:
+    #是否大写命名
+    capitalMode: false
+    #是否跳过视图
+    skipView: false
+    #数据库表映射到实体的命名策略
+    naming: underline_to_camel
+    #字段映射到实体属性的命名策略
+    columnNaming: no_change
+    #表前缀
+    #tablePrefix:
+    #字段前缀
+    #fieldPrefix:
+    #自定义继承的Entity类全称，带包名
+    #superEntityClass:
+    #自定义基础的Entity类，公共字段
+    #superEntityColumns:
+     # - update_time
+     # - create_time
+    #自定义继承的Service类全称，带包名
+    #superServiceClass:
+    #自定义继承的ServiceImpl类全称，带包名
+    #superServiceImplClass:
+    #自定义继承的Controller类全称，带包名
+    superControllerClass: com.luke.common.web.controller.BaseController
+    #exclude:
+    #【实体】是否生成字段常量（默认 false）
+    entityColumnConstant: false
+    #【实体】是否为构建者模型（默认 false）构建者模式会导致spring自动配置失败
+    #entityBuilderModel: true
+    #【实体】是否为lombok模型（默认 false）
+    entityLombokModel: true
+    #Boolean类型字段是否移除is前缀（默认 false）
+    entityBooleanColumnRemoveIsPrefix: false
+    #生成 @RestController 控制器
+    restControllerStyle: true
+    #控制器驼峰转连字符@RequestMapping("/managerUserActionHistory")-> @RequestMapping("/manager-user-action-history")
+    controllerMappingHyphenStyle: false
+    #生成实体时，是否生成字段注解
+    entityTableFieldAnnotationEnable: false
+    #乐观锁属性名称
+    #versionFieldName:
+    #逻辑删除属性名称
+    #logicDeleteFieldName:
+    #表填充字段
+    tableFills:
+      updateTime: UPDATE
+      createTime: INSERT
+  package:
+    #实体类包名
+    entity: model
+    #Service包名
+    service: service
+    #Service Impl包名
+    serviceImpl: service.impl
+    #Mapper包名
+    mapper: mapper
+    #Mapper XML包名
+    xml: mapper.mapper
+    #Controller包名
+    controller: controller
+  template:
+    controller: /template/controller.java.vm
+    service: /template/service.java.vm
+    serviceImpl: /template/serviceImpl.java.vm
+    entity: /template/entity.java.vm
+    mapper: /template/mapper.java.vm
+    xml: /template/mapper.xml.vm

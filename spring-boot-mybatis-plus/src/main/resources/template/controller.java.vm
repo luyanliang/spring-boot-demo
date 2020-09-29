@@ -1,0 +1,131 @@
+package ${package.Controller};
+
+import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.leapmotor.framework.common.constant.model.ResultEnum;
+import com.leapmotor.framework.common.constant.model.ResultModel;
+import com.leapmotor.framework.common.constant.model.ResultModelData;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${table.entityName};
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+import com.leapmotor.framework.common.web.model.PaginationModel;
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Api(tags = "${table.comment}API")
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()
+#end
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+	@Autowired
+	private ${table.serviceName} _${table.serviceName};
+
+	@ApiOperation("分页查询")
+	@ApiOperationSort(5)
+	@ApiImplicitParams({
+			@ApiImplicitParam(value = "页码", name = "page", defaultValue = "1", paramType = "query", dataType = "long"),
+			@ApiImplicitParam(value = "分页大小", name = "size", defaultValue = "10", paramType = "query", dataType = "long")
+	})
+	@GetMapping("page")
+	public ResultModelData<PaginationModel<${table.entityName}>> page(${table.entityName} condition, @RequestParam(value = "page", defaultValue = "1") Long page,
+	@RequestParam(value = "size", defaultValue = "10") Long size) {
+		ResultModelData<PaginationModel<${table.entityName}>> result = new ResultModelData<>();
+		PaginationModel<${table.entityName}> resultData=_${table.serviceName}.findPage(condition, page, size);
+		if (resultData.isEmpty()) {
+			result.setResult(ResultEnum.NO_DATA);
+		} else {
+			result.setData(resultData);
+			result.setResult(ResultEnum.SUCCESS);
+		}
+		return result;
+	}
+
+
+	@ApiOperation("新增")
+	@PostMapping("add")
+	@ApiOperationSort(1)
+	public ResultModel add(${table.entityName} entity) {
+		ResultModel result = new ResultModel();
+		boolean success = _${table.serviceName}.save(entity);
+		if (success) {
+			result.setResult(ResultEnum.SUCCESS);
+		} else {
+			result.setResult(ResultEnum.BAD_REQUEST);
+		}
+		return result;
+	}
+
+
+	@ApiOperation("根据id获取记录")
+	@ApiOperationSort(2)
+	@GetMapping("get/{id:[a-z0-9]+}")
+	@ApiImplicitParam(value = "id", name = "id", required = true, paramType = "path", dataType = "string")
+	public ResultModelData<${table.entityName}> getById(@PathVariable("id") String id) {
+		ResultModelData<${table.entityName}> result = new ResultModelData<>();
+		${table.entityName} data = _${table.serviceName}.getById(id);
+		if (null == data) {
+			result.setResult(ResultEnum.NO_DATA);
+		} else {
+			result.setData(data);
+			result.setResult(ResultEnum.SUCCESS);
+		}
+		return result;
+	}
+
+
+	@ApiOperation("根据ID更新")
+	@ApiOperationSort(3)
+	@PostMapping("update")
+	public ResultModel update(${table.entityName} entity) {
+		ResultModel result = new ResultModel();
+		boolean success = _${table.serviceName}.updateById(entity);
+		if (success) {
+			result.setResult(ResultEnum.SUCCESS);
+		} else {
+			result.setResult(ResultEnum.BAD_REQUEST);
+		}
+		return result;
+	}
+
+
+	@ApiOperation("根据ID删除")
+	@ApiOperationSort(4)
+	@ApiImplicitParam(value = "id", name = "id", required = true, paramType = "path", dataType = "string")
+	@DeleteMapping("del/{id:[a-z0-9]+}")
+	public ResultModel del(@PathVariable("id") String id) {
+		ResultModel result = new ResultModel();
+		boolean success = _${table.serviceName}.removeById(id);
+		if (success) {
+			result.setResult(ResultEnum.SUCCESS);
+		} else {
+			result.setResult(ResultEnum.BAD_REQUEST);
+		}
+		return result;
+	}
+}
+#end

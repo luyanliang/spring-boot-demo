@@ -1,11 +1,11 @@
-package com.luke.activiti.start;
+package com.luke.camunda.start;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.repository.ProcessDefinitionQuery;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.repository.Deployment;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.repository.ProcessDefinitionQuery;
 import org.junit.Test;
 import org.springframework.util.CollectionUtils;
 
@@ -32,7 +32,7 @@ public class ProcessDefinitionTest {
         Deployment deployment = processEngine.getRepositoryService()  // 与流程定义和部署对象相关的Service
                 .createDeployment()     // 创建一个部署对象
                 .name("流程定义")   // 添加部署的名称
-                .addClasspathResource("processes/categorize-text.bpmn")   // 从classPath的资源中加载，一次只能加载一个文件
+                .addClasspathResource("processes/leaveBill.bpmn")   // 从classPath的资源中加载，一次只能加载一个文件
                 .deploy();  // 完成部署
 
         System.out.println("部署ID：" + deployment.getId());
@@ -44,7 +44,7 @@ public class ProcessDefinitionTest {
      */
     @Test
     public void deploymentProcessDefinition_zip() {
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("processes/categorize-text.zip");
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("processes/leaveBill.zip");
         ZipInputStream zipInputStream = new ZipInputStream(in);
 
         Deployment deployment = processEngine.getRepositoryService()  // 与流程定义和部署对象相关的Service
@@ -90,7 +90,7 @@ public class ProcessDefinitionTest {
      */
     @Test
     public void deleteProcessDefinition() {
-        String deploymentId = "";
+        String deploymentId = "1";
 
         RepositoryService repositoryService = processEngine.getRepositoryService();
 

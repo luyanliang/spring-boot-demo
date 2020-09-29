@@ -1,15 +1,14 @@
-package com.luke.activiti.start;
+package com.luke.camunda.start;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.TaskService;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.ProcessEngines;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author LuYanLiang
- * @since 2020/9/21 19:02
+ * @since 2020/9/28 9:28
  */
 public class ProcessEngineTest {
 
@@ -20,8 +19,8 @@ public class ProcessEngineTest {
     public void createTable() {
         ProcessEngineConfiguration configuration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration();
         // 连接数据库配置
-        configuration.setJdbcDriver("com.mysql.cj.jdbc.Driver");
-        configuration.setJdbcUrl("jdbc:mysql://10.192.1.108:3306/test?characterEncoding=utf8");
+        configuration.setJdbcDriver("com.mysql.jdbc.Driver");
+        configuration.setJdbcUrl("jdbc:mysql://10.192.1.108:3306/camunda?characterEncoding=utf8");
         configuration.setJdbcUsername("root");
         configuration.setJdbcPassword("leapmotor&mydb.0314");
 
@@ -38,9 +37,8 @@ public class ProcessEngineTest {
 
     @Test
     public void createProcessEngineByConfigFillTest() {
-        // 默认加载classpath路径下的activity.cfg.xml文件
+        // 默认加载classpath路径下的camunda.cfg.xml文件
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-        TaskService taskService = processEngine.getTaskService();
-        System.out.println(taskService);
+        Assert.assertNotNull(processEngine);
     }
 }
