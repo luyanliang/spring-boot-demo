@@ -3,9 +3,9 @@ package ${package.Controller};
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.leapmotor.framework.common.constant.model.ResultEnum;
-import com.leapmotor.framework.common.constant.model.ResultModel;
-import com.leapmotor.framework.common.constant.model.ResultModelData;
+import com.luke.common.constant.model.ResultEnum;
+import com.luke.common.constant.model.ResultModel;
+import com.luke.common.constant.model.ResultModelData;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${table.entityName};
 #if(${restControllerStyle})
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 #if(${superControllerClassPackage})
 import ${superControllerClassPackage};
 #end
-import com.leapmotor.framework.common.web.model.PaginationModel;
+import com.luke.common.web.model.PaginationModel;
 
 /**
  * <p>

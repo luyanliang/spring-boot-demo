@@ -13,6 +13,7 @@
         <module>spring-boot-redis</module>
         <module>spring-boot-websocket</module>
         <module>spring-boot-mybatis-plus</module>
+        <module>spring-boot-server-offline</module>
     </modules>
 
     <parent>

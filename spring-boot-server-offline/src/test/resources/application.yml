@@ -1,0 +1,6 @@
+sys:
+  switch-token: 123456
+  check-interval: 5000
+  check-times: 2
+  listener:
+    exclusion: "/hello"

@@ -2,7 +2,7 @@ package ${package.Service};
 
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
-import com.leapmotor.framework.common.web.model.PaginationModel;
+import com.luke.common.web.model.PaginationModel;
 
 /**
  * <p>
