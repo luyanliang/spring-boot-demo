@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+    dynamic:
+      primary: mysql_portal
+      # 配置全局druid参数，请按需配置
+      druid:
+        initial-size: 5
+        max-active: 8
+        min-idle: 3
+        max-wait: 1000
+        validation-query: 'select 1'
+      datasource:
+        mysql_portal:
+          username: root
+          password: leapmotor&mydb.0314
+          url: jdbc:mysql://10.192.1.108:3306/app_portal?characterEncoding=utf8
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        mysql_test:
+          username: root
+          password: leapmotor&mydb.0314
+          url: jdbc:mysql://10.192.1.108:3306/test?characterEncoding=utf8
+          driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    com.baomidou: debug

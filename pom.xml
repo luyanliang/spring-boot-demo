@@ -14,6 +14,7 @@
         <module>spring-boot-websocket</module>
         <module>spring-boot-mybatis-plus</module>
         <module>spring-boot-server-offline</module>
+        <module>spring-boot-mybatis-plus-dynamic-datasource</module>
     </modules>
 
     <parent>
