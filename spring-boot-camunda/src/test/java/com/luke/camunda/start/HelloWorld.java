@@ -1,8 +1,6 @@
 package com.luke.camunda.start;
 
-import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngines;
-import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.repository.Deployment;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -17,7 +15,32 @@ import java.util.List;
  */
 public class HelloWorld {
 
-    ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+    private ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+    @Test
+    public void testFlow() {
+        // 1. 创建流程引擎
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+
+        // 2. 流程存储服务器组件：管理流程定义文件
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        repositoryService.createDeployment().addClasspathResource("processes/leaveBill.bpmn").deploy();
+
+        // 3. 得到运行时服务组件
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        runtimeService.startProcessInstanceByKey("LeaveBill");
+
+        // 4. 获取流程任务组件
+        TaskService taskService = processEngine.getTaskService();
+
+        // 查询任务列表
+        List<Task> taskList = taskService.createTaskQuery().list();
+        for (Task task : taskList) {
+            System.out.println("任务完成前，当前任务名称：" + task.getName());
+            // 完成任务
+            taskService.complete(task.getId());
+        }
+    }
 
     /**
      * 部署流程定义
