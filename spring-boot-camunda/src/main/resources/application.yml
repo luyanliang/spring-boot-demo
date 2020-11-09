@@ -1,3 +1,7 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /process
 spring:
   application:
     name: camunda
@@ -6,11 +10,6 @@ spring:
     username: root
     password: leapmotor&mydb.0314
     driver-class-name: com.mysql.jdbc.Driver
-
-server:
-  port: 8080
-  servlet:
-    context-path: /process
 camunda:
   bpm:
     admin-user:
@@ -19,3 +18,5 @@ camunda:
       first-name: camunda
     filter:
       create: All tasks
+    webapp:
+      index-redirect-enabled: true

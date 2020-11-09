@@ -1,4 +1,4 @@
-package com.luke.camunda.start;
+package com.luke.camunda.start.repository;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
@@ -19,7 +19,7 @@ import java.util.zip.ZipInputStream;
  */
 public class ProcessDefinitionTest {
 
-    ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+    private ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 
     /**
      * 部署流程定义（从classPath）

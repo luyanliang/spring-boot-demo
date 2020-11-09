@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class HelloWorld {
 
-    ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+    private ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 
     /**
      * 部署流程定义
