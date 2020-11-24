@@ -12,6 +12,7 @@
     <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration">
         <property name="dataSource" ref="dataSource"/>
         <property name="databaseSchemaUpdate" value="true"/>
+        <property name="jobExecutorActivate" value="true" />
     </bean>
 
     <!--  Spring流程引擎  -->

@@ -1,4 +1,4 @@
-package com.luke.camunda.start.identity;
+package com.luke.camunda.identity;
 
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0z2bzd8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+  <bpmn:process id="Process_Gateway_Demo" name="网关Demo" isExecutable="true">
+    <bpmn:startEvent id="Start_Event" name="开始">
+      <bpmn:outgoing>Start_Request</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Start_Request" sourceRef="Start_Event" targetRef="Leave_Request" />
+    <bpmn:userTask id="Leave_Request" name="提交申请">
+      <bpmn:incoming>Start_Request</bpmn:incoming>
+      <bpmn:outgoing>Flow_Request_Gateway</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_Day_Express" default="Flow_Gateway_Else">
+      <bpmn:incoming>Flow_Request_Gateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_Gateway_LE3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Gateway_LE5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Gateway_Else</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_Request_Gateway" sourceRef="Leave_Request" targetRef="Gateway_Day_Express" />
+    <bpmn:sequenceFlow id="Flow_Gateway_LE3" name="小于3天" sourceRef="Gateway_Day_Express" targetRef="Task_Department_Approval">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${days &lt; 3}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Gateway_LE5" name="小于5天" sourceRef="Gateway_Day_Express" targetRef="Task_Majordomo_Approval">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${days &lt; 5}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="End_Event" name="结束">
+      <bpmn:incoming>Flow_Majordomo_End</bpmn:incoming>
+      <bpmn:incoming>Flow_DepartmentManager_End</bpmn:incoming>
+      <bpmn:incoming>Flow_Boss_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_Majordomo_End" sourceRef="Task_Majordomo_Approval" targetRef="End_Event" />
+    <bpmn:sequenceFlow id="Flow_DepartmentManager_End" sourceRef="Task_Department_Approval" targetRef="End_Event" />
+    <bpmn:userTask id="Task_Majordomo_Approval" name="总监审批">
+      <bpmn:incoming>Flow_Gateway_LE5</bpmn:incoming>
+      <bpmn:outgoing>Flow_Majordomo_End</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_Department_Approval" name="部门经理审批">
+      <bpmn:incoming>Flow_Gateway_LE3</bpmn:incoming>
+      <bpmn:outgoing>Flow_DepartmentManager_End</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_Gateway_Else" name="else" sourceRef="Gateway_Day_Express" targetRef="Task_Boss_Approval" />
+    <bpmn:userTask id="Task_Boss_Approval" name="老板审批">
+      <bpmn:incoming>Flow_Gateway_Else</bpmn:incoming>
+      <bpmn:outgoing>Flow_Boss_End</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_Boss_End" sourceRef="Task_Boss_Approval" targetRef="End_Event" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Gateway_Demo">
+      <bpmndi:BPMNEdge id="Flow_0ekh6lc_di" bpmnElement="Flow_Boss_End">
+        <di:waypoint x="650" y="377" />
+        <di:waypoint x="760" y="377" />
+        <di:waypoint x="760" y="285" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oiog13_di" bpmnElement="Flow_Gateway_Else">
+        <di:waypoint x="450" y="292" />
+        <di:waypoint x="450" y="377" />
+        <di:waypoint x="550" y="377" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="489" y="360" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02rzlrf_di" bpmnElement="Flow_DepartmentManager_End">
+        <di:waypoint x="650" y="160" />
+        <di:waypoint x="760" y="160" />
+        <di:waypoint x="760" y="249" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ob1jx3_di" bpmnElement="Flow_Majordomo_End">
+        <di:waypoint x="650" y="267" />
+        <di:waypoint x="742" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07mailx_di" bpmnElement="Flow_Gateway_LE5">
+        <di:waypoint x="475" y="267" />
+        <di:waypoint x="550" y="267" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="480" y="249" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o0u8t2_di" bpmnElement="Flow_Gateway_LE3">
+        <di:waypoint x="450" y="242" />
+        <di:waypoint x="450" y="160" />
+        <di:waypoint x="550" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="480" y="143" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cjhpt0_di" bpmnElement="Flow_Request_Gateway">
+        <di:waypoint x="370" y="267" />
+        <di:waypoint x="425" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01zbxgz_di" bpmnElement="Start_Request">
+        <di:waypoint x="215" y="267" />
+        <di:waypoint x="270" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Start_Event">
+        <dc:Bounds x="179" y="249" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="186" y="292" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0i57m85_di" bpmnElement="Leave_Request">
+        <dc:Bounds x="270" y="227" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_11vir17_di" bpmnElement="Gateway_Day_Express" isMarkerVisible="true">
+        <dc:Bounds x="425" y="242" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0al1cdf_di" bpmnElement="End_Event">
+        <dc:Bounds x="742" y="249" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="788" y="260" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1owgpi3_di" bpmnElement="Task_Majordomo_Approval">
+        <dc:Bounds x="550" y="227" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mr2lwq_di" bpmnElement="Task_Department_Approval">
+        <dc:Bounds x="550" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cyah02_di" bpmnElement="Task_Boss_Approval">
+        <dc:Bounds x="550" y="337" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

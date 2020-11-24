@@ -10,6 +10,8 @@ spring:
     username: root
     password: leapmotor&mydb.0314
     driver-class-name: com.mysql.jdbc.Driver
+
+# https://docs.camunda.org/manual/latest/user-guide/spring-boot-integration/configuration/
 camunda:
   bpm:
     admin-user:
@@ -20,3 +22,7 @@ camunda:
       create: All tasks
     webapp:
       index-redirect-enabled: true
+    history-level: audit
+    auto-deployment-enabled: false  # 禁止自动部署
+    authorization:
+      tenant-check-enabled: false

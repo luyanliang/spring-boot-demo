@@ -1,4 +1,4 @@
-package com.luke.camunda.start.authorization;
+package com.luke.camunda.authorization;
 
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.ProcessEngine;

@@ -15,7 +15,7 @@
     </bpmn:serviceTask>
     <bpmn:userTask id="leaveRequest" name="提交申请">
       <bpmn:extensionElements>
-        <camunda:taskListener class="com.luke.camunda.start.task.UserTaskListener" event="create" />
+        <camunda:taskListener class="com.luke.camunda.task.UserTaskListener" event="create" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_start_request</bpmn:incoming>
       <bpmn:outgoing>Flow_request_service</bpmn:outgoing>

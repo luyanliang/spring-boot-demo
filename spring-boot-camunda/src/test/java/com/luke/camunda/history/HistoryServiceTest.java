@@ -1,4 +1,4 @@
-package com.luke.camunda.start.history;
+package com.luke.camunda.history;
 
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.ProcessEngine;

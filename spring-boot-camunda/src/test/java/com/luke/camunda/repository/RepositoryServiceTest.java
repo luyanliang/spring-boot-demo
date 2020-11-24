@@ -1,4 +1,4 @@
-package com.luke.camunda.start.repository;
+package com.luke.camunda.repository;
 
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -62,7 +62,7 @@ public class RepositoryServiceTest {
         DeploymentQuery deploymentQuery = repositoryService.createDeploymentQuery();
         List<Deployment> deployments = deploymentQuery.list();
         for (Deployment deployment : deployments) {
-            System.out.printf("[DeploymentId：%s, \tDeploymentName：%s]\n" + deployment.getId(), deployment.getName());
+            System.out.printf("[DeploymentId：%s, \tDeploymentName：%s]\n", deployment.getId(), deployment.getName());
         }
     }
 
@@ -127,8 +127,7 @@ public class RepositoryServiceTest {
      */
     @Test
     public void deleteProcessDefinitionTest() {
-        List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery()
-                .processDefinitionKey("LeaveBill").active().list();
+        List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().list();
         for (ProcessDefinition definition : processDefinitions) {
             repositoryService.deleteProcessDefinition(definition.getId(), true);
         }
