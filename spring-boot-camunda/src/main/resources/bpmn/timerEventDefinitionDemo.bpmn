@@ -18,7 +18,7 @@
     <bpmn:boundaryEvent id="boundaryTimeEvent" name="边界定时事件" attachedToRef="approvalByDepartmentManager">
       <bpmn:outgoing>Flow_sendTimeoutMsg</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1qguxvz">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">3 * * * * ?</bpmn:timeCycle>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">*/5 * * * * ?</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_sendTimeoutMsg" sourceRef="boundaryTimeEvent" targetRef="timeoutSendMsg" />
@@ -28,7 +28,7 @@
     <bpmn:startEvent id="timerStartEvent" name="定时开始">
       <bpmn:outgoing>Flow_1tqp2bm</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_097183j">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0/10 * * * * ?</bpmn:timeCycle>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
   </bpmn:process>
