@@ -1,70 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ehbkd5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
   <bpmn:process id="timerEventDemo" name="定时事件Demo" isExecutable="true">
-    <bpmn:sequenceFlow id="Flow_1tqp2bm" sourceRef="timerStartEvent" targetRef="approvalByDepartmentManager" />
-    <bpmn:sequenceFlow id="Flow_1pvib9e" sourceRef="approvalByDepartmentManager" targetRef="approvalByMajordomo" />
+    <bpmn:sequenceFlow id="Flow_1tqp2bm" sourceRef="timerStartEvent" targetRef="Task_Get_Up" />
+    <bpmn:sequenceFlow id="Flow_1pvib9e" sourceRef="Task_Get_Up" targetRef="Event_0kqvgs3" />
     <bpmn:endEvent id="endEvent" name="结束流程">
       <bpmn:incoming>Flow_1hqlb8u</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1hqlb8u" sourceRef="approvalByMajordomo" targetRef="endEvent" />
-    <bpmn:userTask id="approvalByDepartmentManager" name="经理审批">
+    <bpmn:sequenceFlow id="Flow_1hqlb8u" sourceRef="Task_breakfast" targetRef="endEvent" />
+    <bpmn:userTask id="Task_Get_Up" name="起床">
       <bpmn:incoming>Flow_1tqp2bm</bpmn:incoming>
       <bpmn:outgoing>Flow_1pvib9e</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="approvalByMajordomo" name="总监审批">
-      <bpmn:incoming>Flow_1pvib9e</bpmn:incoming>
-      <bpmn:outgoing>Flow_1hqlb8u</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:boundaryEvent id="boundaryTimeEvent" name="边界定时事件" attachedToRef="approvalByDepartmentManager">
-      <bpmn:outgoing>Flow_sendTimeoutMsg</bpmn:outgoing>
-      <bpmn:timerEventDefinition id="TimerEventDefinition_1qguxvz">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">*/5 * * * * ?</bpmn:timeCycle>
-      </bpmn:timerEventDefinition>
-    </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_sendTimeoutMsg" sourceRef="boundaryTimeEvent" targetRef="timeoutSendMsg" />
-    <bpmn:serviceTask id="timeoutSendMsg" name="发送超时提醒" camunda:delegateExpression="${timeoutDelegate}">
+    <bpmn:sequenceFlow id="Flow_sendTimeoutMsg" sourceRef="boundaryTimeEvent" targetRef="Service_Alarm_Clock_Remind" />
+    <bpmn:serviceTask id="Service_Alarm_Clock_Remind" name="闹钟提醒" camunda:delegateExpression="${timeoutDelegate}">
       <bpmn:incoming>Flow_sendTimeoutMsg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0owdkz2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:startEvent id="timerStartEvent" name="定时开始">
       <bpmn:outgoing>Flow_1tqp2bm</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_097183j">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2020-11-25T15:40:00</bpmn:timeDate>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
+    <bpmn:boundaryEvent id="boundaryTimeEvent" cancelActivity="false" attachedToRef="Task_Get_Up">
+      <bpmn:outgoing>Flow_sendTimeoutMsg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1vq0wyz">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">${duration}</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_Remind">
+      <bpmn:incoming>Flow_0owdkz2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0owdkz2" sourceRef="Service_Alarm_Clock_Remind" targetRef="Event_Remind" />
+    <bpmn:boundaryEvent id="Event_0of5vel" attachedToRef="Task_breakfast">
+      <bpmn:outgoing>Flow_18ljzrl</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0yu4kif" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_18ljzrl" sourceRef="Event_0of5vel" targetRef="Activity_Late" />
+    <bpmn:endEvent id="Event_Late">
+      <bpmn:incoming>Flow_1x3ubax</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1x3ubax" sourceRef="Activity_Late" targetRef="Event_Late" />
+    <bpmn:userTask id="Task_breakfast" name="早点">
+      <bpmn:incoming>Flow_0dc6x7m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hqlb8u</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:manualTask id="Activity_Late" name="上班迟到">
+      <bpmn:incoming>Flow_18ljzrl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1x3ubax</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="Flow_0dc6x7m" sourceRef="Event_0kqvgs3" targetRef="Task_breakfast" />
+    <bpmn:intermediateCatchEvent id="Event_0kqvgs3">
+      <bpmn:incoming>Flow_1pvib9e</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dc6x7m</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_13pitsl" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:textAnnotation id="TextAnnotation_0v4iozt">
+      <bpmn:text>不想起床</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1hz1byw" sourceRef="boundaryTimeEvent" targetRef="TextAnnotation_0v4iozt" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="timerEventDemo">
+      <bpmndi:BPMNShape id="TextAnnotation_0v4iozt_di" bpmnElement="TextAnnotation_0v4iozt">
+        <dc:Bounds x="400" y="140" width="100" height="30" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1mfxu4n_di" bpmnElement="Flow_sendTimeoutMsg">
-        <di:waypoint x="300" y="158" />
-        <di:waypoint x="300" y="230" />
-        <di:waypoint x="410" y="230" />
+        <di:waypoint x="320" y="158" />
+        <di:waypoint x="320" y="220" />
+        <di:waypoint x="360" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1hqlb8u_di" bpmnElement="Flow_1hqlb8u">
-        <di:waypoint x="510" y="100" />
-        <di:waypoint x="572" y="100" />
+        <di:waypoint x="650" y="100" />
+        <di:waypoint x="742" y="100" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1pvib9e_di" bpmnElement="Flow_1pvib9e">
-        <di:waypoint x="350" y="100" />
-        <di:waypoint x="410" y="100" />
+        <di:waypoint x="370" y="100" />
+        <di:waypoint x="442" y="100" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1tqp2bm_di" bpmnElement="Flow_1tqp2bm">
         <di:waypoint x="198" y="100" />
-        <di:waypoint x="250" y="100" />
+        <di:waypoint x="270" y="100" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_1jccrce_di" bpmnElement="endEvent">
-        <dc:Bounds x="572" y="82" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="568" y="125" width="44" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_0owdkz2_di" bpmnElement="Flow_0owdkz2">
+        <di:waypoint x="460" y="220" />
+        <di:waypoint x="492" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18ljzrl_di" bpmnElement="Flow_18ljzrl">
+        <di:waypoint x="600" y="158" />
+        <di:waypoint x="600" y="220" />
+        <di:waypoint x="640" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x3ubax_di" bpmnElement="Flow_1x3ubax">
+        <di:waypoint x="740" y="220" />
+        <di:waypoint x="782" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dc6x7m_di" bpmnElement="Flow_0dc6x7m">
+        <di:waypoint x="478" y="100" />
+        <di:waypoint x="550" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1eaxauj_di" bpmnElement="Task_Get_Up">
+        <dc:Bounds x="270" y="60" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1eaxauj_di" bpmnElement="approvalByDepartmentManager">
-        <dc:Bounds x="250" y="60" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0m89eoa_di" bpmnElement="Service_Alarm_Clock_Remind">
+        <dc:Bounds x="360" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_05wuamp_di" bpmnElement="approvalByMajordomo">
-        <dc:Bounds x="410" y="60" width="100" height="80" />
+      <bpmndi:BPMNShape id="Event_07o23hz_di" bpmnElement="Event_Remind">
+        <dc:Bounds x="492" y="202" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0m89eoa_di" bpmnElement="timeoutSendMsg">
-        <dc:Bounds x="410" y="190" width="100" height="80" />
+      <bpmndi:BPMNShape id="Event_1f25x5x_di" bpmnElement="Event_Late">
+        <dc:Bounds x="782" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1enbkuc_di" bpmnElement="Task_breakfast">
+        <dc:Bounds x="550" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pgp2sc_di" bpmnElement="Activity_Late">
+        <dc:Bounds x="640" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06v9dym_di" bpmnElement="Event_0kqvgs3">
+        <dc:Bounds x="442" y="82" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1cxxkk4_di" bpmnElement="timerStartEvent">
         <dc:Bounds x="162" y="82" width="36" height="36" />
@@ -72,11 +126,24 @@
           <dc:Bounds x="159" y="125" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1nuy5am_di" bpmnElement="boundaryTimeEvent">
-        <dc:Bounds x="282" y="122" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_1jccrce_di" bpmnElement="endEvent">
+        <dc:Bounds x="742" y="82" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="267" y="165" width="66" height="14" />
+          <dc:Bounds x="738" y="125" width="44" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1hz1byw_di" bpmnElement="Association_1hz1byw">
+        <di:waypoint x="338" y="142" />
+        <di:waypoint x="400" y="149" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1vb20n0_di" bpmnElement="boundaryTimeEvent">
+        <dc:Bounds x="302" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="57" y="165" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1sc8mpy_di" bpmnElement="Event_0of5vel">
+        <dc:Bounds x="582" y="122" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

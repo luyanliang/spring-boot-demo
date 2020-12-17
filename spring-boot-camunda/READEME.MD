@@ -6,7 +6,6 @@
 工作流总是以任务的形式驱动人处理业务或者驱动业务系统自动完成作业。
 
 > BPM(Business Process Management)：业务流程管理，是一套达成企业各种业务环节整合的全面管理模式。
-> BPMN(Business Process Modeling Notation): 业务流程建模标注，定义了业务流程图规范。
 
 ### 解决了什么问题
 
@@ -30,12 +29,98 @@
 4. 完成流程任务；
 5. 查询历史记录。
 
-## BPMN规范
+## BPMN 2.0
 
-### 开始与结束事件
+BPMN(Business Process Modeling Notation): 业务流程建模标注，定义了业务流程图规范。
+
+### 任务
+
+### 网关
+
+### 事件
+
+#### 开始与结束事件
 
 `开始事件`都是`捕获型`的，等待第三方触发后才可以启动。主要分三种类型：空启动事件、定时启动事件和异常启动事件。
 `结束事件`都是`抛出型`的，当流程执行结束事件时，会抛出一个执行结果。主要分三种类型：空结束事件、异常结束事件和取消结束事件。
+
+#### Timer Events
+
+`计时器事件`是由定义的计时器触发的事件。可用作开始事件、中间事件或边界事件。边界事件可以被打断也可以不被打断。
+
+![Timer Events](http://learn.fhmou.com/Snipaste_2020-11-25_15-34-59.png)
+
+**配置**
+
+在启用计时器事件前，必须要开启Job Executor。
+
+```xml
+<property name="jobExecutorActivate" value="true" />
+```
+
+或
+
+```yaml
+camunda.bpm.job-execution.enabled: true
+```
+
+**定义计时器**
+
+计时器的配置必须使用ISO 8601的时间格式。时间前面需要加字母T。包含三种格式：
+
+* Time Date: 固定时间和日期。例如：2007-03-01T13:00:00Z，如果日期时间后面没有`Z`，表示没有指定时区，在程序运行时，会按照JVM所在时区执行。
+* Time Duration: 多久后执行。格式为：PnYnMnDTnHnMnS。例如：P3D表示3天后
+* Time Cycle: 指定轮询。可使用两种格式：轮询Duration或者cycle表达式。轮询Duration时，前面需要使用R表示。例如：R3/PT3H。每三小时执行一次，共轮询3次。
+
+**修改时间**
+
+计时器时间可通过`REST API`或`ManagementService`进行修改。
+
+```java
+managementService.setJobDuedate(String jobId, Date newDuedate);
+```
+
+对于一个轮询的计时器（如每半小时执行一次），在修改了计时器后只影响当前的计时规则，后续不受影响，如果想让后面的规则都更改，可以设置级联。如：
+
+```java
+managementService.setJobDuedate(String jobId, Date newDuedate, boolean cascade)
+```
+
+**Expressions**
+
+计时器不必非要在流程定义文件中指定，可以通过设置表达式，然后再程序中动态设置计时器。如：
+
+```xml
+<boundaryEvent id="escalationTimer" cancelActivity="true" attachedToRef="firstLineSupport">
+  <timerEventDefinition>
+    <timeDuration>${duration}</timeDuration>
+  </timerEventDefinition>
+</boundaryEvent>
+```
+
+**Timer Start Event**
+
+> 子流程不允许有定时启动事件。
+> 一旦部署了流程，就会触发定时启动事件。不需要再使用`startProcessInstanceBy...`启动。
+
+定时启动事件会在给定的时间内创建一个流程实例。
+
+**Timer Boundary Event**
+
+计时器边界事件充当秒表和闹钟。当执行到达边界事件所属的活动时，将启动计时器。当计时器触发时，活动被中断，并且遵循从计时器边界事件流出的序列流。
+
+计时器边界事件分为：中断和非中断计时事件。中断计时器事件会终止当前活动，然后走计时器触发的任务；而非中断计时器事件不会中断当前活动的执行。例如：提醒起床，这个属于非中断事件，定了闹钟只是提醒自己，但还是得起床；违约还款属于中断事件，如果超过了规定时间，则需承担违约后果。在定义文件中，通过`cancelActivity`判断是否中断事件。
+
+```xml
+<boundaryEvent id="escalationTimer" cancelActivity="false" />
+  <timerEventDefinition>
+    <timeDuration>PT4H</timeDuration>
+  </timerEventDefinition>
+</boundaryEvent>
+```
+
+
+### 子流程
 
 ### 监听器
 

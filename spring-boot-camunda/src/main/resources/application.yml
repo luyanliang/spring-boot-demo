@@ -26,3 +26,5 @@ camunda:
     auto-deployment-enabled: false  # 禁止自动部署
     authorization:
       tenant-check-enabled: false
+    job-execution:
+      enabled: true

@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 定时器
+ * https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/
+ *
  * @author LuYanLiang [lu_yanliang@leapmotor.com]
  * @since 2020/11/24 16:16
  */
@@ -48,6 +51,7 @@ public class TimerEventController {
         // 启动流程定义
         Map<String, Object> variables = new HashMap<>();
         variables.put("timeoutDelegate", new MyJavaDelegate());
+        variables.put("duration", "PT1M");
         ProcessInstance pi = runtimeService.startProcessInstanceById(definition.getId(), variables);
         return pi.getId();
     }
