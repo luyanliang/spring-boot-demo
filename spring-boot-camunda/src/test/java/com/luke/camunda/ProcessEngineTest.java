@@ -1,4 +1,4 @@
-package com.luke.camunda.start;
+package com.luke.camunda;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;

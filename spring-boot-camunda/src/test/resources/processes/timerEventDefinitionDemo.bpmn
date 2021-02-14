@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ehbkd5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+  <bpmn:process id="timerEventDemo" name="定时事件Demo" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1tqp2bm" sourceRef="timerStartEvent" targetRef="approvalByDepartmentManager" />
+    <bpmn:sequenceFlow id="Flow_1pvib9e" sourceRef="approvalByDepartmentManager" targetRef="approvalByMajordomo" />
+    <bpmn:endEvent id="endEvent" name="结束流程">
+      <bpmn:incoming>Flow_1hqlb8u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1hqlb8u" sourceRef="approvalByMajordomo" targetRef="endEvent" />
+    <bpmn:userTask id="approvalByDepartmentManager" name="经理审批">
+      <bpmn:incoming>Flow_1tqp2bm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pvib9e</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="approvalByMajordomo" name="总监审批">
+      <bpmn:incoming>Flow_1pvib9e</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hqlb8u</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="boundaryTimeEvent" name="边界定时事件" attachedToRef="approvalByDepartmentManager">
+      <bpmn:outgoing>Flow_sendTimeoutMsg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1qguxvz">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">3 * * * * ?</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_sendTimeoutMsg" sourceRef="boundaryTimeEvent" targetRef="timeoutSendMsg" />
+    <bpmn:serviceTask id="timeoutSendMsg" name="发送超时提醒" camunda:delegateExpression="${timeoutDelegate}">
+      <bpmn:incoming>Flow_sendTimeoutMsg</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="timerStartEvent" name="定时开始">
+      <bpmn:outgoing>Flow_1tqp2bm</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_097183j">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0/10 * * * * ?</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="timerEventDemo">
+      <bpmndi:BPMNEdge id="Flow_1mfxu4n_di" bpmnElement="Flow_sendTimeoutMsg">
+        <di:waypoint x="300" y="158" />
+        <di:waypoint x="300" y="230" />
+        <di:waypoint x="410" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hqlb8u_di" bpmnElement="Flow_1hqlb8u">
+        <di:waypoint x="510" y="100" />
+        <di:waypoint x="572" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pvib9e_di" bpmnElement="Flow_1pvib9e">
+        <di:waypoint x="350" y="100" />
+        <di:waypoint x="410" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tqp2bm_di" bpmnElement="Flow_1tqp2bm">
+        <di:waypoint x="198" y="100" />
+        <di:waypoint x="250" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1jccrce_di" bpmnElement="endEvent">
+        <dc:Bounds x="572" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="568" y="125" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eaxauj_di" bpmnElement="approvalByDepartmentManager">
+        <dc:Bounds x="250" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05wuamp_di" bpmnElement="approvalByMajordomo">
+        <dc:Bounds x="410" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0m89eoa_di" bpmnElement="timeoutSendMsg">
+        <dc:Bounds x="410" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1cxxkk4_di" bpmnElement="timerStartEvent">
+        <dc:Bounds x="162" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="125" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1nuy5am_di" bpmnElement="boundaryTimeEvent">
+        <dc:Bounds x="282" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="267" y="165" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
