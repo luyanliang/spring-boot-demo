@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.routing;
+package com.luke.rabbitmq.start.confirm;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author LuYanLiang [765673481@qq.com]
  * @since 2021/2/19 9:18 PM
  */
-public class BaiduRoutingSub {
+public class BaiduConfirmSub {
 
     public static void main(String[] args) throws IOException {
         Connection connection = RabbitUtils.getConnection();
@@ -23,9 +23,7 @@ public class BaiduRoutingSub {
 
         // queueBind用于将队列与交换机绑定
         // 参数1：队列名 参数2：交换机名  参数3：路由key
-        channel.queueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, "henan.zhengzhou");
-        channel.queueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, "henan.anyang");
-        channel.queueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, "zhejiang.jinhua");
+        channel.queueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_TOPIC, "zhejiang.#");
 
         channel.basicQos(1);
         channel.basicConsume(RabbitConstant.QUEUE_BAIDU, false, new DefaultConsumer(channel) {

@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.routing;
+package com.luke.rabbitmq.start.routing;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;
@@ -18,6 +18,7 @@ public class SinaRoutingSub {
         Connection connection = RabbitUtils.getConnection();
         // 获取虚拟连接
         final Channel channel = connection.createChannel();
+
         // 声明队列信息
         channel.queueDeclare(RabbitConstant.QUEUE_SINA, false, false, false, null);
 

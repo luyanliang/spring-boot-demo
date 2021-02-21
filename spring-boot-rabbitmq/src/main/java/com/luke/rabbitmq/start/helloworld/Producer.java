@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.helloworld;
+package com.luke.rabbitmq.start.helloworld;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;
@@ -32,12 +32,12 @@ public class Producer {
         channel.queueDeclare(RabbitConstant.QUEUE_HELLOWORLD, false, false, false, null);
 
         String message = "消息发送666";
+
         /**
-         * 四个参数
-         * 第一个参数：exchange 交换机，暂时用不到
-         * 第二个参数：队列名称
-         * 第三个参数：额外的设置属性
-         * 第四个：最后一个参数是要传递的消息字节数组
+         * exchange: 为空时表示使用默认交换机
+         * routingKey：队列名称
+         * props：额外的设置属性
+         * body：最后一个参数是要传递的消息字节数组
          */
         channel.basicPublish("", RabbitConstant.QUEUE_HELLOWORLD, null, message.getBytes());
         channel.close();

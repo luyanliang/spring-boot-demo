@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.pubsub;
+package com.luke.rabbitmq.start.pubsub;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;
@@ -22,9 +22,6 @@ public class WeatherBureauPub {
         String input = new Scanner(System.in).next();
         Channel channel = connection.createChannel();
 
-        /**
-         * 第一个参数交换机名字
-         */
         channel.basicPublish(RabbitConstant.EXCHANGE_WEATHER, "", null, input.getBytes());
 
         channel.close();

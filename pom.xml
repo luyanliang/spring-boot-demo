@@ -16,6 +16,7 @@
         <module>spring-boot-server-offline</module>
         <module>spring-boot-mybatis-plus-dynamic-datasource</module>
         <module>spring-boot-rabbitmq</module>
+        <module>spring-boot-rocketmq</module>
     </modules>
 
     <parent>

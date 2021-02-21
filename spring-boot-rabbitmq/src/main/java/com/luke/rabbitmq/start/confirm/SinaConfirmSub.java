@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.topic;
+package com.luke.rabbitmq.start.confirm;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author LuYanLiang [765673481@qq.com]
  * @since 2021/2/19 9:18 PM
  */
-public class SinaTopicSub {
+public class SinaConfirmSub {
 
     public static void main(String[] args) throws IOException {
         Connection connection = RabbitUtils.getConnection();

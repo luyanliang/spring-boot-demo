@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.helloworld;
+package com.luke.rabbitmq.start.helloworld;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;

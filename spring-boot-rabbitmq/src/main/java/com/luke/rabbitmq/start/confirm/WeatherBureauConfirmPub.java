@@ -1,4 +1,4 @@
-package com.luke.rabbitmq.confirm;
+package com.luke.rabbitmq.start.confirm;
 
 import com.luke.rabbitmq.utils.RabbitConstant;
 import com.luke.rabbitmq.utils.RabbitUtils;
@@ -7,7 +7,6 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 /**
  * 天气预报发布者
