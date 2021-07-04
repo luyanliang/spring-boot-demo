@@ -17,6 +17,8 @@
         <module>spring-boot-mybatis-plus-dynamic-datasource</module>
         <module>spring-boot-rabbitmq</module>
         <module>spring-boot-rocketmq</module>
+        <module>spring-boot-security</module>
+        <module>java-se</module>
     </modules>
 
     <parent>
