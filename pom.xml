@@ -19,6 +19,7 @@
         <module>spring-boot-rocketmq</module>
         <module>spring-boot-security</module>
         <module>java-se</module>
+        <module>spring-cloud-nacos</module>
     </modules>
 
     <parent>
