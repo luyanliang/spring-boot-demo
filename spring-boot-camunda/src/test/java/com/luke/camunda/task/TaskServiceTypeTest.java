@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 不同种类的任务测试类
  *
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/11/11 13:31
  */
 public class TaskServiceTypeTest {

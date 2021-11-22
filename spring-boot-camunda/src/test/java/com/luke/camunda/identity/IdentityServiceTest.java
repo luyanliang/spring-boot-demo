@@ -17,7 +17,7 @@ import java.util.List;
  * 参考{@link org.camunda.bpm.engine.ProcessEngineConfiguration#setGroupResourceWhitelistPattern(String)}}.
  * 2. 在新增用户、组、租户前，会校验该对象的REV_属性值，如果值为0表示新增，否则进行修改。
  *
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/11/10 18:34
  */
 public class IdentityServiceTest {

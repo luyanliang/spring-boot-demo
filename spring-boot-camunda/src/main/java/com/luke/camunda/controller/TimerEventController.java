@@ -21,7 +21,7 @@ import java.util.Map;
  * 定时器
  * https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/
  *
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/11/24 16:16
  */
 @RestController

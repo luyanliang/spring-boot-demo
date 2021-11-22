@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 自定义任务委派类
  *
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/11/11 13:28
  */
 public class MyJavaDelegate implements JavaDelegate, Serializable {

@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * 授权管理
  *
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/11/10 19:57
  */
 public class AuthorizationTest {

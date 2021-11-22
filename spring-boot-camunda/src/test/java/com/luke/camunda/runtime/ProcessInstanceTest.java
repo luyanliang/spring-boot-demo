@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 流程实例测试类
  *
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/11/9 17:09
  */
 public class ProcessInstanceTest {

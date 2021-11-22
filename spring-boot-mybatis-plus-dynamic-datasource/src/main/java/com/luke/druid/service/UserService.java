@@ -5,7 +5,7 @@ import com.luke.druid.entity.User;
 import java.util.List;
 
 /**
- * @author LuYanLiang [lu_yanliang@leapmotor.com]
+ * @author LuYanLiang [765673481@qq.com]
  * @since 2020/10/13 11:23
  */
 public interface UserService {
