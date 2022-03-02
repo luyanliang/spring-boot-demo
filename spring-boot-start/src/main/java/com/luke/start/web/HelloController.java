@@ -21,4 +21,10 @@ public class HelloController {
     public String home() {
         return userService.getUserName();
     }
+
+    @RequestMapping("/shutdown")
+    public String shutdown() throws InterruptedException {
+        Thread.sleep(20 * 1000);
+        return "OK";
+    }
 }
